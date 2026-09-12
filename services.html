@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Proaxis Solutions Services — Software Engineering, AI Automation & Digital Transformation for South African businesses of all sizes.">
+  <title>Services — Proaxis Solutions</title>
+  <link rel="icon" type="image/svg+xml" href="brand/favicon.svg">
+  <link rel="icon" type="image/x-icon" href="brand/favicon.ico">
+  <link rel="apple-touch-icon" href="brand/logo-icon-192.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://rsms.me/inter/inter.css" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0F172A;
+      --blue: #2563EB;
+      --blue-hover: #1d4ed8;
+      --teal: #14B8A6;
+      --teal-dark: #0d9488;
+      --slate: #334155;
+      --light-bg: #F8FAFC;
+      --border: #E2E8F0;
+    }
+
+    * { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; box-sizing: border-box; }
+    body { background: #fff; color: var(--slate); line-height: 1.7; margin: 0; padding-top: 64px; font-size: 17px; }
+
+    /* PAGE LOADER */
+    #page-loader { position: fixed; inset: 0; z-index: 9999; background: var(--navy); display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 1rem; transition: opacity 0.5s ease, visibility 0.5s ease; }
+    #page-loader.hidden { opacity: 0; visibility: hidden; }
+    .loader-logo { font-size: 1.4rem; font-weight: 800; color: #fff; letter-spacing: -0.02em; }
+    .loader-logo span { color: var(--teal); }
+    .loader-bar { width: 200px; height: 3px; background: rgba(255,255,255,0.1); border-radius: 99px; overflow: hidden; }
+    .loader-fill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--teal), var(--blue)); border-radius: 99px; animation: load 0.9s ease forwards; }
+    @keyframes load { to { width: 100%; } }
+
+    /* NAV */
+    .navbar { background: var(--navy); height: 64px; padding: 0 1rem; }
+    .navbar-brand { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+    .navbar-brand .brand-icon { width: 36px; height: 36px; background: #1E293B; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid rgba(20,184,166,0.3); }
+    .navbar-brand .brand-words { display: flex; flex-direction: column; }
+    .navbar-brand .brand-name { font-family: "Arial Black", Arial, sans-serif; font-size: 1.05rem; font-weight: 900; color: #fff; letter-spacing: 0.3px; line-height: 1; }
+    .navbar-brand .brand-sub { font-size: 0.55rem; color: rgba(255,255,255,0.45); letter-spacing: 3px; text-transform: uppercase; margin-top: 2px; }
+    .nav-link { color: #CBD5E1 !important; font-size: 0.95rem; font-weight: 600; padding: 0.4rem 0.85rem !important; border-radius: 6px; transition: color 0.15s, background 0.15s; }
+    .nav-link:hover, .nav-link.active { color: #fff !important; background: rgba(255,255,255,0.1); }
+    .nav-cta { background: var(--blue) !important; color: #fff !important; margin-left: 0.5rem; }
+    .nav-cta:hover { background: var(--blue-hover) !important; }
+
+    /* PAGE HEADER */
+    .page-header { background: var(--navy); padding: 80px 1.5rem 72px; text-align: center; position: relative; overflow: hidden; }
+    .page-header::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(37,99,235,0.22) 0%, transparent 70%); pointer-events: none; }
+    .page-badge { display: inline-block; background: rgba(20,184,166,0.15); color: var(--teal); border: 1px solid rgba(20,184,166,0.3); border-radius: 999px; padding: 0.35rem 1rem; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 1.25rem; }
+    .page-header h1 { color: #fff; font-size: clamp(1.9rem, 4.5vw, 2.9rem); font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; margin-bottom: 1rem; }
+    .page-header p { color: #CBD5E1; font-size: 1.05rem; font-weight: 500; max-width: 540px; margin: 0 auto; }
+
+    /* SHARED */
+    section { padding: 88px 1.5rem; }
+    .section-label { font-size: 0.8rem; font-weight: 800; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blue); margin-bottom: 0.6rem; }
+    .section-heading { font-size: clamp(1.6rem, 2.5vw, 2.1rem); font-weight: 800; color: var(--navy); letter-spacing: -0.025em; line-height: 1.2; margin-bottom: 0.75rem; }
+    .section-sub { color: var(--slate); font-size: 1rem; font-weight: 500; max-width: 540px; line-height: 1.7; }
+
+    /* SCROLL REVEAL */
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s ease, transform 0.65s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+
+    /* ── SERVICE BLOCKS ── */
+    .service-block {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      padding: 5rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+    .service-block:last-of-type { border-bottom: none; }
+    .service-block.reverse .service-visual-col { order: -1; }
+
+    .service-info h2 { font-size: clamp(1.5rem, 2.5vw, 1.85rem); font-weight: 800; color: var(--navy); letter-spacing: -0.025em; margin-bottom: 0.85rem; line-height: 1.2; }
+    .service-info p { color: var(--slate); font-size: 1rem; font-weight: 500; line-height: 1.75; margin-bottom: 1.25rem; }
+
+    .outcomes-list { list-style: none; padding: 0; margin: 0 0 1.5rem; }
+    .outcomes-list li { display: flex; align-items: flex-start; gap: 0.7rem; font-size: 0.95rem; font-weight: 600; color: var(--slate); padding: 0.45rem 0; }
+    .outcomes-list li::before { content: '✓'; color: var(--teal); font-weight: 800; flex-shrink: 0; margin-top: 0.05rem; font-size: 1rem; }
+
+    .tag { display: inline-block; background: rgba(37,99,235,0.08); color: var(--blue); border-radius: 6px; padding: 0.28rem 0.7rem; font-size: 0.78rem; font-weight: 700; margin: 0.2rem 0.15rem; letter-spacing: 0.01em; }
+
+    /* SVG ILLUSTRATION PANELS */
+    .service-visual-col {
+      position: relative;
+    }
+    .illustration-wrapper {
+      background: var(--light-bg);
+      border: 1.5px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 8px 32px rgba(15,23,42,0.08);
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .illustration-wrapper:hover {
+      box-shadow: 0 20px 48px rgba(15,23,42,0.14);
+      transform: translateY(-6px);
+    }
+    .illus-topbar {
+      background: #1E293B;
+      padding: 0.75rem 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .illus-dot { width: 10px; height: 10px; border-radius: 50%; }
+    .illus-urlbar {
+      flex: 1; height: 22px; background: rgba(255,255,255,0.08);
+      border-radius: 6px; margin: 0 0.5rem;
+      display: flex; align-items: center; padding: 0 0.75rem;
+    }
+    .illus-urlbar span { font-size: 0.7rem; color: #64748B; font-weight: 600; }
+    .illus-body { padding: 1.5rem; }
+
+    /* ── ILLUSTRATION 1: Software / App Dashboard ── */
+    .dash-header {
+      background: linear-gradient(135deg, var(--navy), #1E3A5F);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1rem;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .dash-header-title { font-size: 0.82rem; font-weight: 800; color: #fff; }
+    .dash-badge-live { background: var(--teal); color: var(--navy); font-size: 0.68rem; font-weight: 800; padding: 0.2rem 0.6rem; border-radius: 99px; }
+    .dash-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+    .dash-stat { background: #fff; border: 1.5px solid var(--border); border-radius: 10px; padding: 0.85rem 0.75rem; text-align: center; }
+    .dash-stat-num { font-size: 1.3rem; font-weight: 800; color: var(--blue); letter-spacing: -0.02em; }
+    .dash-stat-lbl { font-size: 0.68rem; font-weight: 700; color: #94A3B8; margin-top: 0.15rem; }
+    .dash-chart-row { display: flex; gap: 0.75rem; }
+    .dash-chart-area { flex: 2; background: #fff; border: 1.5px solid var(--border); border-radius: 10px; padding: 0.85rem; }
+    .dash-chart-area .chart-title { font-size: 0.72rem; font-weight: 800; color: var(--navy); margin-bottom: 0.75rem; }
+    .bar-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.45rem; }
+    .bar-label { font-size: 0.65rem; font-weight: 700; color: #94A3B8; width: 28px; flex-shrink: 0; }
+    .bar-track { flex: 1; height: 8px; background: var(--light-bg); border-radius: 99px; overflow: hidden; }
+    .bar-fill { height: 100%; border-radius: 99px; background: linear-gradient(90deg, var(--blue), var(--teal)); }
+    .dash-sidebar { flex: 1; background: #fff; border: 1.5px solid var(--border); border-radius: 10px; padding: 0.85rem; }
+    .dash-sidebar .chart-title { font-size: 0.72rem; font-weight: 800; color: var(--navy); margin-bottom: 0.75rem; }
+    .task-item { display: flex; align-items: center; gap: 0.4rem; padding: 0.3rem 0; border-bottom: 1px solid var(--border); }
+    .task-item:last-child { border-bottom: none; }
+    .task-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+    .task-text { font-size: 0.65rem; font-weight: 600; color: var(--slate); }
+
+    /* ── ILLUSTRATION 2: Automation Flow ── */
+    .flow-container { padding: 0.5rem 0; }
+    .flow-node {
+      display: flex; align-items: center; gap: 0.85rem;
+      background: #fff; border: 1.5px solid var(--border);
+      border-radius: 12px; padding: 0.85rem 1rem;
+      margin-bottom: 0.5rem;
+      transition: all 0.2s;
+      position: relative;
+    }
+    .flow-node:hover { border-color: var(--blue); box-shadow: 0 4px 12px rgba(37,99,235,0.12); }
+    .flow-icon-box { width: 36px; height: 36px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 1rem; flex-shrink: 0; }
+    .flow-text h6 { font-size: 0.78rem; font-weight: 800; color: var(--navy); margin: 0 0 0.1rem; }
+    .flow-text p { font-size: 0.68rem; font-weight: 500; color: #94A3B8; margin: 0; }
+    .flow-status { margin-left: auto; font-size: 0.65rem; font-weight: 800; padding: 0.2rem 0.55rem; border-radius: 99px; flex-shrink: 0; }
+    .flow-arrow { text-align: center; color: var(--teal); font-size: 1rem; margin-bottom: 0.25rem; line-height: 1; font-weight: 800; }
+    .flow-result { background: linear-gradient(135deg, rgba(20,184,166,0.12), rgba(37,99,235,0.08)); border: 1.5px solid rgba(20,184,166,0.3); border-radius: 12px; padding: 0.85rem 1rem; display: flex; align-items: center; gap: 0.75rem; margin-top: 0.5rem; }
+    .flow-result-icon { font-size: 1.25rem; }
+    .flow-result-text h6 { font-size: 0.78rem; font-weight: 800; color: var(--navy); margin: 0 0 0.1rem; }
+    .flow-result-text p { font-size: 0.68rem; font-weight: 600; color: var(--teal-dark); margin: 0; }
+
+    /* ── ILLUSTRATION 3: Digital Transformation Before/After ── */
+    .transform-wrapper { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .transform-col h6 { font-size: 0.72rem; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.75rem; text-align: center; }
+    .transform-col.before h6 { color: #EF4444; }
+    .transform-col.after h6 { color: var(--teal); }
+    .process-item {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.55rem 0.75rem; border-radius: 8px;
+      margin-bottom: 0.4rem; font-size: 0.72rem; font-weight: 600;
+    }
+    .process-item.bad { background: rgba(239,68,68,0.07); color: #EF4444; border: 1px solid rgba(239,68,68,0.15); }
+    .process-item.good { background: rgba(20,184,166,0.08); color: var(--teal-dark); border: 1px solid rgba(20,184,166,0.2); }
+    .process-icon { font-size: 0.9rem; flex-shrink: 0; }
+    .transform-arrow { display: flex; align-items: center; justify-content: center; font-size: 1.5rem; color: var(--blue); font-weight: 800; }
+    .transform-result-bar { grid-column: 1/-1; background: linear-gradient(135deg, rgba(37,99,235,0.07), rgba(20,184,166,0.07)); border: 1.5px solid rgba(37,99,235,0.15); border-radius: 10px; padding: 0.85rem; text-align: center; margin-top: 0.5rem; }
+    .transform-result-bar p { font-size: 0.78rem; font-weight: 700; color: var(--navy); margin: 0; }
+    .transform-result-bar span { color: var(--teal); font-weight: 800; }
+
+    /* ASSESSMENT */
+    .assessment-section { background: var(--navy); border-radius: 18px; padding: 3rem; color: white; }
+    .assessment-section h2 { color: #fff; font-size: 1.6rem; font-weight: 800; letter-spacing: -0.02em; margin-bottom: 0.5rem; }
+    .assessment-section p { color: #94A3B8; font-size: 0.95rem; font-weight: 500; margin-bottom: 1.5rem; }
+    .form-label { font-size: 0.88rem; font-weight: 800; color: #CBD5E1; margin-bottom: 0.4rem; }
+    .form-control, .form-select { background: rgba(255,255,255,0.07); border: 1.5px solid rgba(255,255,255,0.13); color: #fff; border-radius: 9px; font-size: 0.95rem; padding: 0.7rem 0.9rem; transition: border-color 0.2s, box-shadow 0.2s; }
+    .form-control::placeholder { color: #475569; }
+    .form-control:focus, .form-select:focus { background: rgba(255,255,255,0.1); border-color: var(--teal); color: #fff; box-shadow: 0 0 0 3px rgba(20,184,166,0.2); }
+    .form-select option { background: #1E293B; color: #fff; }
+    .btn-assess { background: linear-gradient(135deg, var(--teal), #0891B2); color: #fff; font-weight: 800; border: none; border-radius: 9px; padding: 0.8rem 1.5rem; font-size: 0.95rem; width: 100%; cursor: pointer; transition: all 0.2s; }
+    .btn-assess:hover { opacity: 0.9; transform: translateY(-2px); box-shadow: 0 8px 20px rgba(20,184,166,0.3); }
+    .result-box { background: rgba(20,184,166,0.1); border: 1.5px solid rgba(20,184,166,0.25); border-radius: 12px; padding: 1.35rem; margin-top: 1.35rem; display: none; }
+    .result-box h5 { color: var(--teal); font-size: 0.9rem; font-weight: 800; margin-bottom: 0.4rem; }
+    .result-box p { color: #CBD5E1; font-size: 0.9rem; font-weight: 500; margin: 0; line-height: 1.65; }
+    .result-priority { font-size: 1.15rem; font-weight: 800; color: #fff; margin-bottom: 0.4rem; }
+
+    /* LOCAL BUSINESS STRIP */
+    .local-strip {
+      background: linear-gradient(135deg, #0F2027, #0d3347, #0F172A);
+      border-radius: 18px;
+      padding: 3rem 3.5rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    .local-strip h2 { color: #fff; font-size: 1.7rem; font-weight: 800; letter-spacing: -0.025em; margin-bottom: 0.85rem; line-height: 1.2; }
+    .local-strip h2 em { font-style: normal; color: var(--teal); }
+    .local-strip p { color: #94A3B8; font-size: 0.97rem; font-weight: 500; line-height: 1.75; }
+    .local-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem; }
+    .local-tile {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 12px; padding: 1rem;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .local-tile:hover { background: rgba(255,255,255,0.1); transform: translateY(-3px); border-color: rgba(20,184,166,0.3); }
+    .local-tile .t-icon { font-size: 1.6rem; margin-bottom: 0.45rem; }
+    .local-tile .t-label { font-size: 0.78rem; font-weight: 700; color: #CBD5E1; }
+
+    /* CTA */
+    .cta-banner { background: var(--light-bg); border: 1.5px solid var(--border); border-radius: 18px; padding: 3.5rem 2.5rem; text-align: center; }
+    .cta-banner h2 { color: var(--navy); font-size: 1.75rem; font-weight: 800; letter-spacing: -0.025em; margin-bottom: 0.75rem; }
+    .cta-banner p { color: var(--slate); font-size: 1rem; font-weight: 500; margin-bottom: 2rem; max-width: 460px; margin-left: auto; margin-right: auto; }
+    .btn-primary-custom { background: linear-gradient(135deg, var(--blue), #4F46E5); color: #fff; border: none; border-radius: 10px; padding: 0.85rem 2rem; font-weight: 800; font-size: 1rem; text-decoration: none; transition: all 0.2s; display: inline-block; }
+    .btn-primary-custom:hover { color: #fff; transform: translateY(-2px); box-shadow: 0 8px 22px rgba(37,99,235,0.35); }
+
+    /* FOOTER */
+    footer { background: var(--navy); color: #94A3B8; padding: 3rem 1.5rem; }
+    .footer-inner { max-width: 1140px; margin: 0 auto; display: flex; flex-wrap: wrap; gap: 2rem; justify-content: space-between; align-items: flex-start; }
+    .footer-brand { font-weight: 800; font-size: 1.1rem; color: #fff; margin-bottom: 0.4rem; }
+    .footer-brand span { color: var(--teal); }
+    .footer-sub { font-size: 0.85rem; font-weight: 500; color: #64748B; }
+    .footer-links { display: flex; gap: 1.25rem; flex-wrap: wrap; align-items: center; }
+    .footer-links a { color: #64748B; font-size: 0.88rem; font-weight: 600; text-decoration: none; transition: color 0.15s; }
+    .footer-links a:hover { color: #fff; }
+    .footer-copy { font-size: 0.85rem; font-weight: 500; color: #475569; margin-top: 2rem; text-align: center; }
+
+    @media (max-width: 900px) {
+      .service-block { grid-template-columns: 1fr; gap: 2.5rem; }
+      .service-block.reverse .service-visual-col { order: 0; }
+      .local-strip { grid-template-columns: 1fr; gap: 2rem; padding: 2rem 1.5rem; }
+      .assessment-section { padding: 2rem 1.25rem; }
+    }
+    @media (max-width: 600px) {
+      .transform-wrapper { grid-template-columns: 1fr; }
+      .transform-arrow { display: none; }
+    }
+
+    /* ── ASSESSMENT UPGRADE ── */
+    .assess-hint {
+      font-size: 0.78rem;
+      color: #14B8A6;
+      margin-top: 0.4rem;
+      min-height: 1rem;
+      transition: all 0.3s;
+    }
+    .form-control:focus, .form-select:focus {
+      border-color: #14B8A6 !important;
+      box-shadow: 0 0 0 3px rgba(20,184,166,0.15) !important;
+    }
+    .result-metric-box {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 10px;
+      padding: 0.9rem;
+      text-align: center;
+    }
+    .result-metric-value { font-size: 1.4rem; font-weight: 700; color: #fff; }
+    .result-metric-label { font-size: 0.72rem; color: #64748B; margin-top: 0.2rem; }
+  </style>
+</head>
+<body>
+
+<!-- Page Loader -->
+<div id="page-loader">
+  <div class="loader-logo">Proaxis <span>Solutions</span></div>
+  <div class="loader-bar"><div class="loader-fill"></div></div>
+</div>
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg fixed-top">
+  <div class="container-xl">
+    <a class="navbar-brand" href="index.html">
+      <div class="brand-icon"><svg viewBox="0 0 36 36" width="24" height="24" xmlns="http://www.w3.org/2000/svg"><line x1="18" y1="26" x2="18" y2="8" stroke="#14B8A6" stroke-width="2" stroke-linecap="round"/><path d="M13 14 L18 8 L23 14" fill="none" stroke="#14B8A6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><line x1="6" y1="26" x2="30" y2="26" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-opacity="0.35"/><circle cx="18" cy="26" r="2" fill="#14B8A6"/></svg></div>
+      <div class="brand-words"><span class="brand-name">Proaxis</span><span class="brand-sub">Solutions</span></div>
+    </a>
+    <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#nav">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto align-items-center">
+        <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link active" href="services.html">Services</a></li>
+        <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+        <li class="nav-item"><a class="nav-link nav-cta" href="contact.html">Get in Touch</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Page Header -->
+<div class="page-header">
+  <div class="page-badge">Our Capabilities</div>
+  <h1>Solutions That Fit Your Business —<br>Whatever Size You Are</h1>
+  <p>From solo traders and local shops to large enterprises and government bodies — we design technology that actually works for how your business operates.</p>
+</div>
+
+<!-- Services -->
+<section style="background:#fff;">
+  <div class="container-xl">
+
+    <!-- ── SOFTWARE ENGINEERING ── -->
+    <div class="service-block" id="software">
+      <div class="service-info reveal">
+        <div class="section-label">Service 01</div>
+        <h2>Custom Software Engineering</h2>
+        <p>Off-the-shelf tools force your business to work their way. We build software around your exact workflows — scalable, maintainable, and designed to make your team's life easier from day one.</p>
+        <p>Whether you need a booking system for your salon, a stock tracker for your shop, a client portal for your firm, or a full enterprise platform — we build it right.</p>
+        <ul class="outcomes-list">
+          <li>Reduces manual work and costly workarounds</li>
+          <li>Integrates with your existing tools and data</li>
+          <li>Designed for the long term — easy to maintain and grow</li>
+          <li>Faster time-to-market with purpose-built solutions</li>
+          <li>Works for businesses of any size</li>
+        </ul>
+        <div style="margin-top:0.25rem;">
+          <span class="tag">Web Applications</span>
+          <span class="tag">API Development</span>
+          <span class="tag">System Integration</span>
+          <span class="tag">Database Design</span>
+          <span class="tag">Legacy Modernisation</span>
+          <span class="tag">Mobile-Friendly</span>
+        </div>
+      </div>
+      <div class="service-visual-col reveal reveal-delay-2">
+        <div class="illustration-wrapper">
+          <div class="illus-topbar">
+            <div class="illus-dot" style="background:#EF4444;"></div>
+            <div class="illus-dot" style="background:#F59E0B;"></div>
+            <div class="illus-dot" style="background:#22C55E;"></div>
+            <div class="illus-urlbar"><span>✦ proaxis-business-platform.app</span></div>
+          </div>
+          <div class="illus-body">
+            <div class="dash-header">
+              <div class="dash-header-title">Business Dashboard</div>
+              <div class="dash-badge-live">LIVE</div>
+            </div>
+            <div class="dash-stats">
+              <div class="dash-stat"><div class="dash-stat-num">247</div><div class="dash-stat-lbl">Orders Today</div></div>
+              <div class="dash-stat"><div class="dash-stat-num" style="color:var(--teal);">R 18.4k</div><div class="dash-stat-lbl">Revenue</div></div>
+              <div class="dash-stat"><div class="dash-stat-num" style="color:#22C55E;">98%</div><div class="dash-stat-lbl">Uptime</div></div>
+            </div>
+            <div class="dash-chart-row">
+              <div class="dash-chart-area">
+                <div class="chart-title">Weekly Performance</div>
+                <div class="bar-row"><div class="bar-label">Mon</div><div class="bar-track"><div class="bar-fill" style="width:65%"></div></div></div>
+                <div class="bar-row"><div class="bar-label">Tue</div><div class="bar-track"><div class="bar-fill" style="width:80%"></div></div></div>
+                <div class="bar-row"><div class="bar-label">Wed</div><div class="bar-track"><div class="bar-fill" style="width:55%"></div></div></div>
+                <div class="bar-row"><div class="bar-label">Thu</div><div class="bar-track"><div class="bar-fill" style="width:90%"></div></div></div>
+                <div class="bar-row"><div class="bar-label">Fri</div><div class="bar-track"><div class="bar-fill" style="width:75%"></div></div></div>
+              </div>
+              <div class="dash-sidebar">
+                <div class="chart-title">Active Tasks</div>
+                <div class="task-item"><div class="task-dot" style="background:#22C55E;"></div><div class="task-text">Invoices sent</div></div>
+                <div class="task-item"><div class="task-dot" style="background:var(--blue);"></div><div class="task-text">Orders processed</div></div>
+                <div class="task-item"><div class="task-dot" style="background:var(--teal);"></div><div class="task-text">Reports ready</div></div>
+                <div class="task-item"><div class="task-dot" style="background:#F59E0B;"></div><div class="task-text">2 pending</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── AI & AUTOMATION ── -->
+    <div class="service-block reverse" id="ai">
+      <div class="service-info reveal">
+        <div class="section-label">Service 02</div>
+        <h2>AI & Business Automation</h2>
+        <p>Every hour your team spends on repetitive manual tasks is an hour not spent growing your business. We identify where automation can make the biggest difference — and build intelligent workflows that run reliably in the background.</p>
+        <p>From automatic invoicing and appointment reminders to AI-assisted document processing — we bring practical AI to your operations, not just buzzwords.</p>
+        <ul class="outcomes-list">
+          <li>Dramatically reduces manual processing time</li>
+          <li>Fewer errors, faster throughput</li>
+          <li>AI-assisted insights for better decisions</li>
+          <li>Your team focuses on customers, not admin</li>
+          <li>Scales without needing to hire more staff</li>
+        </ul>
+        <div style="margin-top:0.25rem;">
+          <span class="tag">Process Automation</span>
+          <span class="tag">AI Workflows</span>
+          <span class="tag">Document Processing</span>
+          <span class="tag">Smart Notifications</span>
+          <span class="tag">Reporting Automation</span>
+        </div>
+      </div>
+      <div class="service-visual-col reveal reveal-delay-1">
+        <div class="illustration-wrapper">
+          <div class="illus-topbar">
+            <div class="illus-dot" style="background:#EF4444;"></div>
+            <div class="illus-dot" style="background:#F59E0B;"></div>
+            <div class="illus-dot" style="background:#22C55E;"></div>
+            <div class="illus-urlbar"><span>✦ automation-flow · running</span></div>
+          </div>
+          <div class="illus-body">
+            <div class="flow-container">
+              <div class="flow-node">
+                <div class="flow-icon-box" style="background:rgba(37,99,235,0.1);">📥</div>
+                <div class="flow-text"><h6>New Order Received</h6><p>Trigger: Customer submits order form</p></div>
+                <div class="flow-status" style="background:rgba(34,197,94,0.12); color:#16A34A;">● Active</div>
+              </div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node">
+                <div class="flow-icon-box" style="background:rgba(20,184,166,0.1);">🤖</div>
+                <div class="flow-text"><h6>AI Processes & Validates</h6><p>Checks stock, verifies details, flags issues</p></div>
+                <div class="flow-status" style="background:rgba(37,99,235,0.1); color:var(--blue);">⚡ Auto</div>
+              </div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-node">
+                <div class="flow-icon-box" style="background:rgba(245,158,11,0.1);">📧</div>
+                <div class="flow-text"><h6>Confirmation Sent</h6><p>Customer & team notified instantly</p></div>
+                <div class="flow-status" style="background:rgba(34,197,94,0.12); color:#16A34A;">✓ Done</div>
+              </div>
+              <div class="flow-arrow">↓</div>
+              <div class="flow-result">
+                <div class="flow-result-icon">📊</div>
+                <div class="flow-result-text"><h6>Dashboard Updated</h6><p>Full audit trail logged automatically — zero manual entry</p></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── DIGITAL TRANSFORMATION ── -->
+    <div class="service-block" id="digital">
+      <div class="service-info reveal">
+        <div class="section-label">Service 03</div>
+        <h2>Digital Transformation</h2>
+        <p>Still using paper files, spreadsheets, or outdated systems? You're not alone — and you're not stuck. We help businesses of every size move to smarter, faster, fully digital operations.</p>
+        <p>We handle the whole journey: from auditing your current processes to building the new systems and supporting your team through the change.</p>
+        <ul class="outcomes-list">
+          <li>Replaces paper processes with digital workflows</li>
+          <li>Modernises outdated systems — fast</li>
+          <li>Employees are more productive and less frustrated</li>
+          <li>Better customer experience across every touchpoint</li>
+          <li>Positions you for long-term competitive advantage</li>
+        </ul>
+        <div style="margin-top:0.25rem;">
+          <span class="tag">Digital Strategy</span>
+          <span class="tag">Process Redesign</span>
+          <span class="tag">Cloud Setup</span>
+          <span class="tag">Team Onboarding</span>
+          <span class="tag">Digital Consulting</span>
+        </div>
+      </div>
+      <div class="service-visual-col reveal reveal-delay-2">
+        <div class="illustration-wrapper">
+          <div class="illus-topbar">
+            <div class="illus-dot" style="background:#EF4444;"></div>
+            <div class="illus-dot" style="background:#F59E0B;"></div>
+            <div class="illus-dot" style="background:#22C55E;"></div>
+            <div class="illus-urlbar"><span>✦ transformation-roadmap</span></div>
+          </div>
+          <div class="illus-body">
+            <div class="transform-wrapper">
+              <div class="transform-col before">
+                <h6>❌ Before</h6>
+                <div class="process-item bad"><div class="process-icon">📄</div>Paper-based records</div>
+                <div class="process-item bad"><div class="process-icon">📊</div>Manual spreadsheets</div>
+                <div class="process-item bad"><div class="process-icon">📞</div>Phone order taking</div>
+                <div class="process-item bad"><div class="process-icon">⏳</div>Slow approvals</div>
+                <div class="process-item bad"><div class="process-icon">🗂️</div>Lost documents</div>
+              </div>
+              <div class="transform-col after">
+                <h6>✅ After</h6>
+                <div class="process-item good"><div class="process-icon">☁️</div>Cloud-based system</div>
+                <div class="process-item good"><div class="process-icon">📱</div>Live digital dashboard</div>
+                <div class="process-item good"><div class="process-icon">🛒</div>Online order portal</div>
+                <div class="process-item good"><div class="process-icon">⚡</div>Instant approvals</div>
+                <div class="process-item good"><div class="process-icon">🔍</div>Searchable records</div>
+              </div>
+              <div class="transform-result-bar">
+                <p>Result: <span>Up to 70% reduction in manual admin time</span> — your team back to what matters most.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- Local Business Strip -->
+<section style="background:var(--light-bg); border-top:1px solid var(--border); border-bottom:1px solid var(--border);">
+  <div class="container-xl">
+    <div class="local-strip reveal">
+      <div>
+        <div style="font-size:0.8rem; font-weight:800; letter-spacing:0.1em; text-transform:uppercase; color:var(--teal); margin-bottom:0.75rem;">🏪 Built for Every South African Business</div>
+        <h2>You don't need to be<br>a big company to <em>benefit from technology</em></h2>
+        <p>We work with hair salons, spaza shops, food stalls, family businesses, community organisations, and growing SMEs across South Africa. Our solutions are designed to fit your reality — your budget, your team size, your goals.</p>
+        <a href="contact.html" style="display:inline-block; margin-top:1.5rem; background:var(--teal); color:var(--navy); padding:0.75rem 1.75rem; border-radius:9px; font-weight:800; font-size:0.95rem; text-decoration:none; transition:all 0.2s;">
+          Tell Us About Your Business →
+        </a>
+      </div>
+      <div class="local-grid">
+        <div class="local-tile"><div class="t-icon">💇</div><div class="t-label">Hair & Beauty</div></div>
+        <div class="local-tile"><div class="t-icon">🛒</div><div class="t-label">Retail & Spaza</div></div>
+        <div class="local-tile"><div class="t-icon">🍽️</div><div class="t-label">Food & Catering</div></div>
+        <div class="local-tile"><div class="t-icon">🔧</div><div class="t-label">Trades & Services</div></div>
+        <div class="local-tile"><div class="t-icon">🏥</div><div class="t-label">Healthcare</div></div>
+        <div class="local-tile"><div class="t-icon">🏛️</div><div class="t-label">Government</div></div>
+        <div class="local-tile"><div class="t-icon">📚</div><div class="t-label">Education</div></div>
+        <div class="local-tile"><div class="t-icon">🏢</div><div class="t-label">Professional Firms</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Automation Assessment -->
+<section style="background:#fff;">
+  <div class="container-xl">
+    <div class="row align-items-start g-5">
+      <div class="col-lg-5 reveal">
+        <div class="section-label">Free Tool — Takes 60 Seconds</div>
+        <h2 class="section-heading">How Much Is Manual Work <em style="font-style:normal;color:var(--blue);">Costing You?</em></h2>
+        <p class="section-sub" style="font-size:1rem;line-height:1.7;">Most business owners have <strong style="color:var(--navy);">no idea</strong> how much money walks out the door every month in wasted manual effort. This tool shows you exactly what you're losing — in Rands and in hours.</p>
+        <div style="margin-top:1.75rem;display:flex;flex-direction:column;gap:1rem;">
+          <div style="display:flex;align-items:flex-start;gap:0.75rem;">
+            <div style="width:36px;height:36px;border-radius:50%;background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.9rem;">💸</div>
+            <div><div style="font-size:0.88rem;font-weight:700;color:var(--navy);">See your monthly Rand cost</div><div style="font-size:0.82rem;color:var(--slate);margin-top:0.1rem;">Calculated against South African average labour costs.</div></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:0.75rem;">
+            <div style="width:36px;height:36px;border-radius:50%;background:rgba(37,99,235,0.08);border:1px solid rgba(37,99,235,0.15);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.9rem;">⏱️</div>
+            <div><div style="font-size:0.88rem;font-weight:700;color:var(--navy);">Quantify the hours your team loses</div><div style="font-size:0.82rem;color:var(--slate);margin-top:0.1rem;">Hours you could redirect to revenue-generating work.</div></div>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:0.75rem;">
+            <div style="width:36px;height:36px;border-radius:50%;background:rgba(20,184,166,0.1);border:1px solid rgba(20,184,166,0.2);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.9rem;">🎯</div>
+            <div><div style="font-size:0.88rem;font-weight:700;color:var(--navy);">Get a personalised automation score</div><div style="font-size:0.82rem;color:var(--slate);margin-top:0.1rem;">We score your process and tell you exactly where to start.</div></div>
+          </div>
+        </div>
+        <div style="margin-top:1.75rem;background:rgba(239,68,68,0.06);border:1px solid rgba(239,68,68,0.15);border-radius:10px;padding:1rem 1.25rem;">
+          <div style="font-size:0.75rem;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#EF4444;margin-bottom:0.3rem;">💡 Did you know?</div>
+          <p style="font-size:0.85rem;color:#475569;margin:0;line-height:1.6;">South African SMEs spend an average of <strong style="color:var(--navy);">18–35% of payroll</strong> on tasks that can be fully or partially automated. That's money that could pay for a new hire — or go straight to profit.</p>
+        </div>
+      </div>
+      <div class="col-lg-7 reveal reveal-delay-1">
+        <div class="assessment-section">
+          <!-- Step 1: Questions -->
+          <div id="assess-step1">
+            <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.25rem;">
+              <h2 style="margin:0;">Calculate Your Hidden Cost</h2>
+            </div>
+            <p style="color:#94A3B8;font-size:0.88rem;margin-bottom:1.5rem;">Answer 4 quick questions. We'll calculate exactly what this process is costing your business every month.</p>
+            <form id="assessmentForm">
+              <!-- Q1 -->
+              <div class="assess-field" style="margin-bottom:1.25rem;">
+                <label class="form-label" for="processType" style="font-weight:700;color:#E2E8F0;display:flex;align-items:center;gap:0.5rem;">
+                  <span style="background:rgba(20,184,166,0.15);color:#14B8A6;width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:800;">1</span>
+                  What type of process is this?
+                </label>
+                <select class="form-select" id="processType" required style="background:#1E293B;border:1px solid #334155;color:#E2E8F0;border-radius:8px;padding:0.7rem 1rem;">
+                  <option value="">Select the closest match</option>
+                  <option value="admin">Admin / paperwork / data entry</option>
+                  <option value="reporting">Reporting & spreadsheets</option>
+                  <option value="communication">Client communication & follow-ups</option>
+                  <option value="invoicing">Invoicing & payments</option>
+                  <option value="scheduling">Scheduling & bookings</option>
+                  <option value="inventory">Stock & inventory management</option>
+                  <option value="compliance">Compliance & document filing</option>
+                  <option value="other">Other manual process</option>
+                </select>
+                <div id="hint-processType" class="assess-hint"></div>
+              </div>
+              <!-- Q2 -->
+              <div class="assess-field" style="margin-bottom:1.25rem;">
+                <label class="form-label" for="manualHours" style="font-weight:700;color:#E2E8F0;display:flex;align-items:center;gap:0.5rem;">
+                  <span style="background:rgba(20,184,166,0.15);color:#14B8A6;width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:800;">2</span>
+                  How many hours per week does this process take?
+                </label>
+                <input class="form-control" id="manualHours" type="number" min="1" max="500" placeholder="e.g. 10" required style="background:#1E293B;border:1px solid #334155;color:#E2E8F0;border-radius:8px;padding:0.7rem 1rem;" oninput="showHourHint(this.value)">
+                <div id="hint-hours" class="assess-hint"></div>
+              </div>
+              <!-- Q3 -->
+              <div class="assess-field" style="margin-bottom:1.25rem;">
+                <label class="form-label" for="staffCount" style="font-weight:700;color:#E2E8F0;display:flex;align-items:center;gap:0.5rem;">
+                  <span style="background:rgba(20,184,166,0.15);color:#14B8A6;width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:800;">3</span>
+                  How many people are involved?
+                </label>
+                <input class="form-control" id="staffCount" type="number" min="1" max="500" placeholder="e.g. 2" required style="background:#1E293B;border:1px solid #334155;color:#E2E8F0;border-radius:8px;padding:0.7rem 1rem;">
+              </div>
+              <!-- Q4 -->
+              <div class="assess-field" style="margin-bottom:1.5rem;">
+                <label class="form-label" for="frequency" style="font-weight:700;color:#E2E8F0;display:flex;align-items:center;gap:0.5rem;">
+                  <span style="background:rgba(20,184,166,0.15);color:#14B8A6;width:22px;height:22px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.72rem;font-weight:800;">4</span>
+                  How often does it run?
+                </label>
+                <select class="form-select" id="frequency" required style="background:#1E293B;border:1px solid #334155;color:#E2E8F0;border-radius:8px;padding:0.7rem 1rem;">
+                  <option value="">Select frequency</option>
+                  <option value="daily">Daily — every single working day</option>
+                  <option value="weekly">Weekly</option>
+                  <option value="monthly">Monthly</option>
+                </select>
+              </div>
+              <button class="btn-assess" type="submit" style="width:100%;padding:1rem;font-size:1rem;letter-spacing:0.01em;">Show Me What This Is Costing Me →</button>
+            </form>
+          </div>
+
+          <!-- Step 2: Lead Capture (shown after form submit) -->
+          <div id="assess-step2" style="display:none;">
+            <div style="text-align:center;margin-bottom:1.5rem;">
+              <div style="font-size:2rem;margin-bottom:0.5rem;">📊</div>
+              <h2 style="color:#fff;margin-bottom:0.25rem;">Your results are ready.</h2>
+              <p style="color:#94A3B8;font-size:0.88rem;">Enter your details below to unlock your full cost analysis and personalised automation recommendation.</p>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:0.75rem;margin-bottom:1rem;">
+              <input id="lead-name" type="text" placeholder="Your name" style="background:#1E293B;border:1px solid #334155;color:#E2E8F0;border-radius:8px;padding:0.7rem 1rem;font-size:0.9rem;outline:none;width:100%;">
+              <input id="lead-email" type="email" placeholder="Work email address" style="background:#1E293B;border:1px solid #334155;color:#E2E8F0;border-radius:8px;padding:0.7rem 1rem;font-size:0.9rem;outline:none;width:100%;">
+              <input id="lead-phone" type="tel" placeholder="Phone number (optional)" style="background:#1E293B;border:1px solid #334155;color:#E2E8F0;border-radius:8px;padding:0.7rem 1rem;font-size:0.9rem;outline:none;width:100%;">
+            </div>
+            <p style="font-size:0.72rem;color:#475569;margin-bottom:1rem;">🔒 We respect your privacy. No spam. No selling your data. POPIA compliant.</p>
+            <button onclick="unlockResults()" style="width:100%;background:#14B8A6;color:#0F172A;border:none;border-radius:8px;padding:0.9rem;font-weight:700;font-size:0.95rem;cursor:pointer;transition:all 0.2s;" onmouseover="this.style.background='#0d9488'" onmouseout="this.style.background='#14B8A6'">Unlock My Free Results →</button>
+            <p style="text-align:center;font-size:0.75rem;color:#334155;margin-top:0.75rem;cursor:pointer;text-decoration:underline;" onclick="unlockResults(true)">Skip — just show me the numbers</p>
+          </div>
+
+          <!-- Step 3: Results -->
+          <div id="assess-step3" style="display:none;">
+            <div id="assessmentResult" class="result-box" style="display:block;">
+              <div class="result-priority" id="priorityText"></div>
+              <h5 id="resultHeadline" style="color:#fff;font-size:1.1rem;margin-bottom:0.75rem;"></h5>
+              <div id="resultMetrics" style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;margin-bottom:1rem;"></div>
+              <p id="resultText" style="color:#94A3B8;font-size:0.88rem;line-height:1.65;margin-bottom:1rem;"></p>
+              <div id="resultAdvice" style="background:rgba(20,184,166,0.08);border:1px solid rgba(20,184,166,0.2);border-radius:8px;padding:0.85rem;margin-bottom:1.25rem;font-size:0.84rem;color:#CBD5E1;line-height:1.6;"></div>
+              <a href="contact.html" style="display:block;background:#2563EB;color:#fff;font-weight:700;text-align:center;padding:0.85rem;border-radius:8px;text-decoration:none;font-size:0.9rem;transition:all 0.2s;" onmouseover="this.style.background='#1d4ed8'" onmouseout="this.style.background='#2563EB'">Book a Free Discovery Call — We'll Show You How to Fix This →</a>
+              <p style="text-align:center;font-size:0.75rem;color:#475569;margin-top:0.5rem;">No commitment · No cost · 30-minute call</p>
+              <button onclick="resetAssessment()" style="display:block;width:100%;background:transparent;border:1px solid #1E293B;color:#475569;border-radius:8px;padding:0.6rem;font-size:0.8rem;cursor:pointer;margin-top:0.5rem;">← Run Another Assessment</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section style="background:var(--light-bg); border-top:1px solid var(--border);">
+  <div class="container-xl">
+    <div class="cta-banner reveal">
+      <h2>Which service fits your challenge?</h2>
+      <p>Let's have a real conversation about your situation — no jargon, no pressure. We work with businesses of all sizes.</p>
+      <a href="contact.html" class="btn-primary-custom">Talk to Our Team</a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">Proaxis <span>Solutions</span></div>
+      <div class="footer-sub">Reg. 2025/542019/07 · B-BBEE Level 1 Contributor · South Africa</div>
+    </div>
+    <div class="footer-links">
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  </div>
+  <hr style="border-color:#1E293B; max-width:1140px; margin:1.5rem auto 0;">
+  <p class="footer-copy">© 2025 Proaxis Solutions (Pty) Ltd · All Rights Reserved · South Africa</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+window.addEventListener('load', () => {
+  setTimeout(() => document.getElementById('page-loader').classList.add('hidden'), 950);
+});
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); observer.unobserve(e.target); } });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+const processHints = {
+  admin: "Admin tasks are among the most automatable — typically 70–90% reduction in manual time is achievable.",
+  reporting: "Reporting automation saves businesses an average of 8–15 hours per month per person.",
+  communication: "Automated follow-ups recover 25–40% of leads that would otherwise go cold.",
+  invoicing: "Automated invoicing reduces payment delays by 35% and eliminates capture errors.",
+  scheduling: "Booking automation cuts no-shows by 40–60% and removes back-and-forth entirely.",
+  inventory: "Smart inventory systems prevent stockouts and reduce over-ordering by up to 30%.",
+  compliance: "Compliance automation eliminates deadline misses and reduces document prep time by 60%.",
+  other: "Most manual processes have at least 50% automation potential — even partial automation delivers significant ROI."
+};
+document.getElementById('processType').addEventListener('change', function() {
+  const hint = document.getElementById('hint-processType');
+  hint.textContent = processHints[this.value] || '';
+});
+
+function showHourHint(val) {
+  const hint = document.getElementById('hint-hours');
+  const h = parseFloat(val);
+  if (!h || h < 1) { hint.textContent = ''; return; }
+  const monthly = h * 4.33;
+  hint.textContent = `That's roughly ${Math.round(monthly)} hours per month — before we factor in the number of people.`;
+}
+
+let calcData = {};
+
+document.getElementById('assessmentForm').addEventListener('submit', function(e) {
+  e.preventDefault();
+  const hours = parseFloat(document.getElementById('manualHours').value) || 0;
+  const staff = parseFloat(document.getElementById('staffCount').value) || 1;
+  const freq = document.getElementById('frequency').value;
+  const ptype = document.getElementById('processType').value;
+  const freqMultiplier = {daily: 22, weekly: 4.33, monthly: 1}[freq] || 4.33;
+  const monthlyHours = Math.round(hours * freqMultiplier * staff);
+  // SA average cost: ~R120/hour blended labour
+  const hourlyRate = 120;
+  const monthlyCost = monthlyHours * hourlyRate;
+  const annualCost = monthlyCost * 12;
+  const automationSavingPct = {admin:0.8, reporting:0.75, communication:0.65, invoicing:0.75, scheduling:0.7, inventory:0.6, compliance:0.7, other:0.6}[ptype] || 0.65;
+  const monthlySaving = Math.round(monthlyCost * automationSavingPct);
+  const annualSaving = monthlySaving * 12;
+  calcData = {monthlyHours, monthlyCost, annualCost, monthlySaving, annualSaving, ptype, freq, hours, staff};
+  document.getElementById('assess-step1').style.display = 'none';
+  document.getElementById('assess-step2').style.display = 'block';
+});
+
+function unlockResults(skip) {
+  const name = document.getElementById('lead-name').value.trim();
+  const email = document.getElementById('lead-email').value.trim();
+  if (!skip && email && !/\S+@\S+\.\S+/.test(email)) {
+    alert('Please enter a valid email address.'); return;
+  }
+  // Store lead data
+  if (email) {
+    const lead = {name, email, phone: document.getElementById('lead-phone').value, ...calcData, ts: new Date().toISOString()};
+    const leads = JSON.parse(localStorage.getItem('proaxis_leads') || '[]');
+    leads.push(lead);
+    localStorage.setItem('proaxis_leads', JSON.stringify(leads));
+    document.cookie = `proaxis_lead=${encodeURIComponent(email)};path=/;max-age=31536000;SameSite=Lax`;
+  }
+  document.getElementById('assess-step2').style.display = 'none';
+  document.getElementById('assess-step3').style.display = 'block';
+  showResults(calcData, name);
+}
+
+function showResults(d, name) {
+  const greeting = name ? `${name.split(' ')[0]}, ` : '';
+  const score = d.monthlyHours > 200 ? 'high' : d.monthlyHours > 60 ? 'medium' : 'low';
+  const scoreConfig = {
+    high: {dot:'🔴', label:'Critical Automation Priority', color:'#EF4444'},
+    medium: {dot:'🟠', label:'Strong Automation Candidate', color:'#F59E0B'},
+    low: {dot:'🟢', label:'Automation Opportunity', color:'#10B981'}
+  }[score];
+  document.getElementById('priorityText').innerHTML = `${scoreConfig.dot} <span style="color:${scoreConfig.color}">${scoreConfig.label}</span>`;
+  document.getElementById('resultHeadline').textContent = `${greeting}here's what this process is really costing you.`;
+  document.getElementById('resultMetrics').innerHTML = `
+    <div class="result-metric-box"><div class="result-metric-value">${d.monthlyHours.toLocaleString()}</div><div class="result-metric-label">Hours lost per month</div></div>
+    <div class="result-metric-box"><div class="result-metric-value" style="color:#EF4444;">R${d.monthlyCost.toLocaleString()}</div><div class="result-metric-label">Monthly cost to your business</div></div>
+    <div class="result-metric-box"><div class="result-metric-value" style="color:#EF4444;">R${d.annualCost.toLocaleString()}</div><div class="result-metric-label">Wasted per year (if unchanged)</div></div>
+    <div class="result-metric-box"><div class="result-metric-value" style="color:#10B981;">R${d.monthlySaving.toLocaleString()}/mo</div><div class="result-metric-label">Estimated automation saving</div></div>`;
+  const msgs = {
+    high: `This is a significant drain. You're losing the equivalent of a full-time salary every year to a process that a well-built automation could handle in the background — without errors, without fatigue, without sick days. Every month you delay costs R${d.monthlyCost.toLocaleString()}.`,
+    medium: `This process is quietly costing R${d.monthlyCost.toLocaleString()} every month. That's R${d.annualCost.toLocaleString()} per year — money that could fund new hires, marketing, or equipment. Targeted automation could reclaim R${d.monthlySaving.toLocaleString()} of that every month.`,
+    low: `Even at this scale, you're spending R${d.monthlyCost.toLocaleString()} monthly on manual work. Small improvements compound — and the right automation now sets the foundation for scaling without adding headcount.`
+  }[score];
+  document.getElementById('resultText').textContent = msgs;
+  const advice = {
+    admin: '💡 Recommendation: Document capture + RPA (Robotic Process Automation) can handle this with near-zero human input. Timeline: 4–6 weeks to deploy.',
+    reporting: '💡 Recommendation: Automated dashboards pull live data and generate reports on schedule. No more manual spreadsheet updates.',
+    communication: '💡 Recommendation: AI-powered follow-up sequences ensure no lead or client message goes unanswered — even after hours.',
+    invoicing: '💡 Recommendation: Integrate invoicing with your existing systems. Auto-generate, send and chase invoices without lifting a finger.',
+    scheduling: '💡 Recommendation: Online booking with automated confirmations and reminders. Clients self-serve. Your diary fills itself.',
+    inventory: '💡 Recommendation: Smart inventory system with low-stock alerts and automated supplier ordering. Never run out of key stock again.',
+    compliance: '💡 Recommendation: Compliance automation tracks deadlines, generates documents and maintains audit trails automatically.',
+    other: '💡 Recommendation: A process audit will identify the quickest automation wins. Most businesses see ROI within the first 60 days.'
+  }[d.ptype] || '💡 Recommendation: A 30-minute discovery call will map exactly which parts of this process to automate first for maximum impact.';
+  document.getElementById('resultAdvice').textContent = advice;
+}
+
+function resetAssessment() {
+  document.getElementById('assess-step3').style.display = 'none';
+  document.getElementById('assess-step1').style.display = 'block';
+  document.getElementById('assessmentForm').reset();
+  document.getElementById('hint-processType').textContent = '';
+  document.getElementById('hint-hours').textContent = '';
+  calcData = {};
+}
+</script>
+</body>
+</html>  
