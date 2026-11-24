@@ -5,3 +5,10 @@
 lu*.tmp
 .~lock.*
 *.tmp
+
+# Private audit/compliance documents (never push)
+/01_Core_ComplianceCompany_Master_Pr.txt
+/17.CSDAudit.pdf
+/PROAXIS_Audit_Pack_2026-09-16.zip
+/Proaxis_Bidding_Toolkit.zip
+/R=CSD report.pdf
