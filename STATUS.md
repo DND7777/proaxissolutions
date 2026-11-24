@@ -6,6 +6,7 @@
 ## Completed
 - Website, business docs, compliance documents, outreach pitches and client prototypes in repo
 - Private audit and compliance documents git-ignored (`898e083`)
+- Cleanup: 14 stale LibreOffice lock files removed, duplicate .gitignore rules removed (`49ed0b1`); local `_archive_duplicates` backup deleted (fully contained in GitHub history)
 - Detailed session log: [HANDOFF.md](HANDOFF.md) (dated 2026-06-10, may be stale)
 
 ## Next Step
