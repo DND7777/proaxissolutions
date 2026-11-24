@@ -3,8 +3,6 @@
 .~lock.*
 *.tmp
 lu*.tmp
-.~lock.*
-*.tmp
 
 # Private audit/compliance documents (never push)
 /01_Core_ComplianceCompany_Master_Pr.txt
